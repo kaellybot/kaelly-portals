@@ -1,6 +1,6 @@
 module github.com/kaellybot/kaelly-portals
 
-go 1.22
+go 1.24
 
 // replace github.com/kaellybot/kaelly-amqp => ../kaelly-amqp
 

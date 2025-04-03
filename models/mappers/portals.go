@@ -56,15 +56,10 @@ func mapPosition(position *dofusportals.Position, areaService areas.Service,
 		return nil
 	}
 
-	isInCanopy := false
-	if position.IsInCanopy != nil && *position.IsInCanopy {
-		isInCanopy = true
-	}
-
 	return &amqp.PortalPositionAnswer_PortalPosition_Position{
 		X:                    int64(position.X),
 		Y:                    int64(position.Y),
-		IsInCanopy:           isInCanopy,
+		IsInCanopy:           position.IsInCanopy != nil && *position.IsInCanopy,
 		Transport:            mapTransport(position.Transport, areaService, subareaService, transportService),
 		ConditionalTransport: mapTransport(position.ConditionalTransport, areaService, subareaService, transportService),
 	}
