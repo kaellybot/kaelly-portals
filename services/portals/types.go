@@ -25,7 +25,6 @@ const (
 var (
 	errInvalidMessage = errors.New("invalid request portal, type is not the good one" +
 		" and/or the dedicated message is not filled")
-	errStatusNotOK = errors.New("status Code is not OK")
 )
 
 type Service interface {

@@ -3,6 +3,7 @@ package portals
 import (
 	"context"
 	"encoding/json"
+	"fmt"
 	"io"
 	"net/http"
 
@@ -24,7 +25,7 @@ import (
 func New(broker amqp.MessageBroker, serverService servers.Service,
 	dimensionService dimensions.Service, areaService areas.Service,
 	subAreaService subareas.Service, transportService transports.Service) (*Impl, error) {
-	apiKeyProvIDer, err := securityprovider.
+	apiKeyProvider, err := securityprovider.
 		NewSecurityProviderApiKey(httpHeader, httpAPIToken, viper.GetString(constants.DofusPortalsToken))
 	if err != nil {
 		return nil, err
@@ -32,7 +33,7 @@ func New(broker amqp.MessageBroker, serverService servers.Service,
 
 	dofusPortalsClient, err := dofusportals.NewClient(
 		constants.DofusPortalsURL,
-		dofusportals.WithRequestEditorFn(apiKeyProvIDer.Intercept),
+		dofusportals.WithRequestEditorFn(apiKeyProvider.Intercept),
 	)
 	if err != nil {
 		return nil, err
@@ -158,7 +159,7 @@ func (service *Impl) getPortals(ctx context.Context, server string) ([]dofusport
 	defer resp.Body.Close()
 
 	if resp.StatusCode != http.StatusOK {
-		return nil, errStatusNotOK
+		return nil, fmt.Errorf("status Code is not OK: %v", resp.StatusCode)
 	}
 
 	body, err := io.ReadAll(resp.Body)
@@ -184,7 +185,7 @@ func (service *Impl) getPortal(ctx context.Context, server, dimension string) (d
 	defer resp.Body.Close()
 
 	if resp.StatusCode != http.StatusOK {
-		return dofusportals.Portal{}, errStatusNotOK
+		return dofusportals.Portal{}, fmt.Errorf("status Code is not OK: %v", resp.StatusCode)
 	}
 
 	body, err := io.ReadAll(resp.Body)
