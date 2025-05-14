@@ -105,13 +105,13 @@ jobs:
               --namespace kaellybot \
               --create-namespace \
               --set image.tag="${{ env.image_tag_name }}" \
-              --set-string secrets.DISCORD_TOKEN="${{ secrets.DOFUS_PORTALS_TOKEN }}" \
+              --set-string secrets.DOFUS_PORTALS_TOKEN="${{ secrets.DOFUS_PORTALS_TOKEN }}" \
               --set secrets.MYSQL_URL="${{ secrets.MYSQL_URL }}" \
               --set secrets.MYSQL_USER="${{ secrets.MYSQL_USER }}" \
               --set secrets.MYSQL_PASSWORD="${{ secrets.MYSQL_PASSWORD }}" \
               --set secrets.MYSQL_DATABASE="${{ secrets.MYSQL_DATABASE }}" \
               --set secrets.RABBITMQ_ADDRESS="${{ secrets.RABBITMQ_ADDRESS }}" \
-              --set configMap.HTTP_TIMEOUT="${{ secrets.WORKER_POOL }}" \
+              --set configMap.HTTP_TIMEOUT="${{ secrets.HTTP_TIMEOUT }}" \
               --set configMap.PROBE_PORT="${{ secrets.PROBE_PORT }}" \
               --set configMap.METRIC_PORT="${{ secrets.METRIC_PORT }}" \
               --set configMap.LOG_LEVEL="${{ secrets.LOG_LEVEL }}" \
